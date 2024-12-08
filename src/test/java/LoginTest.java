@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -16,7 +17,7 @@ public class LoginTest {
         driver.quit();
     }
 
-    @Test
+    @Test (dataProvider = "dataSupplier")
     public void testLogin() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
@@ -30,5 +31,12 @@ public class LoginTest {
         driver.findElement(By.xpath("//input[@type ='submit']")).click();
         Assert.assertTrue(driver.findElement(By.linkText("Edit your account information")).isDisplayed());
         driver.quit();
+    }
+    @DataProvider
+    public Object[][] dataSupplier() {
+        Object[][] data = {{"amotooricap9@gmail.com", "12345"}, {"amotooricap1@gmail.com", "12345"}
+                , {"amotooricap3@gmail.com", "12345"}};
+
+        return data;
     }
 }
