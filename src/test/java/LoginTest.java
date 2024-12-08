@@ -18,7 +18,7 @@ public class LoginTest {
     }
 
     @Test (dataProvider = "dataSupplier")
-    public void testLogin() {
+    public void testLogin(String email,String password) {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -26,15 +26,15 @@ public class LoginTest {
         driver.get("http://tutorialsninja.com/demo/");
         driver.findElement(By.xpath("//span[text()='My Account']")).click();
         driver.findElement(By.linkText("Login")).click();
-        driver.findElement(By.id("input-email")).sendKeys("amotooricap3@gmail.com");
-        driver.findElement(By.id("input-password")).sendKeys("12345");
+        driver.findElement(By.id("input-email")).sendKeys(email);
+        driver.findElement(By.id("input-password")).sendKeys(password);
         driver.findElement(By.xpath("//input[@type ='submit']")).click();
         Assert.assertTrue(driver.findElement(By.linkText("Edit your account information")).isDisplayed());
         driver.quit();
     }
     @DataProvider
     public Object[][] dataSupplier() {
-        Object[][] data = {{"amotooricap9@gmail.com", "12345"}, {"amotooricap1@gmail.com", "12345"}
+        Object[][] data = {{"amotooricap7@gmail.com", "12345"}, {"amotooricap1@gmail.com", "12345"}
                 , {"amotooricap3@gmail.com", "12345"}};
 
         return data;
