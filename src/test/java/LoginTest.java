@@ -34,7 +34,7 @@ public class LoginTest {
     }
     @DataProvider
     public Object[][] dataSupplier() {
-        Object[][] data = {{"amotooricap7@gmail.com", "12345"}, {"amotooricap1@gmail.com", "12345"}
+        Object[][] data = {{"amotooricap61@gmail.com", "12345"}, {"amotooricap1@gmail.com", "12345"}
                 , {"amotooricap3@gmail.com", "12345"}};
 
         return data;
