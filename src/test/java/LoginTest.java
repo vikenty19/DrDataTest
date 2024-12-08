@@ -6,7 +6,10 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import utils.DataUtil;
+import utils.MyXLSReader;
 
+import java.io.IOException;
 import java.time.Duration;
 
 public class LoginTest {
@@ -33,10 +36,21 @@ public class LoginTest {
         driver.quit();
     }
     @DataProvider
-    public Object[][] dataSupplier() {
-        Object[][] data = {{"amotooricap61@gmail.com", "12345"}, {"amotooricap1@gmail.com", "12345"}
-                , {"amotooricap3@gmail.com", "12345"}};
+    public Object[][] dataSupplier()  {
+        //For try-catch make Object global
+        Object[][]data = null;
+        //create an Object for MyXLSReader
 
+        try {
+          MyXLSReader  excelReader =
+                  new MyXLSReader(("user.dir")+"/src/test/resources/TutorialsNinja.xlsx");
+
+        //Load data to the Reader method getTestData
+         data =   DataUtil
+              .getTestData(excelReader,"LoginTest","Data");//object,testName,Data from excel sheet
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
         return data;
     }
 }
