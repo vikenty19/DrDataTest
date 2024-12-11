@@ -1,11 +1,9 @@
 import Base.BaseTest;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.SkipException;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import utils.DataUtil;
@@ -13,9 +11,6 @@ import utils.MyXLSReader;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Properties;
 
