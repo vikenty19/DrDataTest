@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import pageobjects.HomePage;
 import utils.DataUtil;
 import utils.MyXLSReader;
 
@@ -26,10 +27,11 @@ public class LoginTest extends BaseTest {
             throw new SkipException("Run mode is set to N, hence not executed");
         }
         driver = openBrowserAndUrl(hMap.get("Browser"));
-
-
-        driver.findElement(By.xpath("//span[text()='My Account']")).click();
-        driver.findElement(By.linkText("Login")).click();
+        HomePage homePage = new HomePage(driver);
+        homePage.myAccountBtnClick();
+        homePage.loginBtnClick();
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.enterEmail(hMap.get("Username"));
         driver.findElement(By.id("input-email")).sendKeys(hMap.get("Username"));
         driver.findElement(By.id("input-password")).sendKeys(hMap.get("Password"));
         driver.findElement(By.xpath("//input[@type ='submit']")).click();
