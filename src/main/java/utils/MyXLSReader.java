@@ -1,5 +1,6 @@
 package utils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,13 +35,16 @@ public class MyXLSReader {
 		
 		this.filepath = filepath;
 		fileExtension = filepath.substring(filepath.indexOf(".x"));
+		System.out.println(fileExtension);
 		
 	   try {
+
 			fis = new FileInputStream(filepath);
 			
 			if(fileExtension.equals(".xlsx")){
 				
 				workbook = new XSSFWorkbook(fis);
+
 				
 				
 			} else if(fileExtension.equals(".xls")){
@@ -49,7 +53,8 @@ public class MyXLSReader {
 				
 			}
 			
-			sheet = workbook.getSheetAt(0);	
+			sheet = workbook.getSheetAt(0);
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();

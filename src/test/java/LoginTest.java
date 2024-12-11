@@ -11,10 +11,13 @@ import org.testng.annotations.Test;
 import utils.DataUtil;
 import utils.MyXLSReader;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.Properties;
 
 public class LoginTest extends BaseTest {
 
@@ -27,8 +30,9 @@ public class LoginTest extends BaseTest {
         if (!DataUtil.isRunnable(excelReader,"LoginTest","TestCases")|| hMap.get("Runmode").equals("N")){
             throw new SkipException("Run mode is set to N, hence not executed");
         }
-        driver = openBrowser(hMap.get("Browser"));
-        driver.get(url);
+        driver = openBrowserAndUrl(hMap.get("Browser"));
+
+
         driver.findElement(By.xpath("//span[text()='My Account']")).click();
         driver.findElement(By.linkText("Login")).click();
         driver.findElement(By.id("input-email")).sendKeys(hMap.get("Username"));
@@ -51,6 +55,24 @@ public class LoginTest extends BaseTest {
         Assert.assertEquals(actualResult,expectedConvertedResult);
 
     }
+    // Checking proper reading from property file
+    @Test
+    public void checkFileReading(){
+        prop = new Properties();
+        File propFile=new File(System.getProperty("user.dir")+"/src/test/resources/data.properties");
+
+        try {
+            FileInputStream fis = new FileInputStream(propFile);
+            prop.load(fis);
+            System.out.println(prop);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+        driver.get(prop.getProperty("url"));
+
+    }
     @DataProvider
     public Object[][] dataSupplier()  {
         //For try-catch make Object global
@@ -58,7 +80,8 @@ public class LoginTest extends BaseTest {
         //create an Object for MyXLSReader
 // String excelFilePath = System.getProperty("user.dir") + "/Files/employee.xlsx";
         try {
-            String excelPath = System.getProperty("user.dir") + "/src/test/resources/TutorialsNinja.xlsx";
+            String excelPath = System.getProperty("user.dir") + "\\src\\test\\resources\\TutorialsNinja.xlsx";
+            System.out.println(excelPath);
          excelReader =
                   new MyXLSReader(excelPath);
 
