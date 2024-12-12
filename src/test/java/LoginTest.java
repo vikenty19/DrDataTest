@@ -14,6 +14,7 @@ import utils.MyXLSReader;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -67,9 +68,23 @@ public class LoginTest extends BaseTest {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        driver.get(prop.getProperty("url"));
+
+        driver = openBrowserAndUrl(prop.getProperty("browserName"));
+
+        HomePage homePage = new HomePage(driver);
+        homePage.myAccountBtnClick();
+        homePage.goToLoginPage();
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.enterEmail("amotooricap1@gmail.com");
+        loginPage.enterPassword("12345");
+        loginPage.clickLoginToAccountPage();
+
+        boolean actualResult = false;
+              // check if actual result true or false
+        AccountPage accountPage = new AccountPage(driver);
+        actualResult = accountPage.isConfirmTextDisplayed();
+
+        Assert.assertEquals(actualResult, true);
 
     }
 

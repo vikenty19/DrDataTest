@@ -19,7 +19,7 @@ public class BaseTest {
    protected WebDriver driver= null;
  //  protected String url = "http://tutorialsninja.com/demo/";
     public Properties prop;
-//    @BeforeMethod
+
     public WebDriver openBrowserAndUrl(String browserName){
          prop = new Properties();
         File propFile=new File(System.getProperty("user.dir")+"/src/test/resources/data.properties");
@@ -35,14 +35,29 @@ public class BaseTest {
         switch (browserName){
             case "firefox":
                WebDriverManager.firefoxdriver().setup();
-                return driver =new FirefoxDriver();
+                driver =new FirefoxDriver();
+                break;
             case "edge":
               WebDriverManager.edgedriver().setup();
-                return driver = new EdgeDriver();
+                 driver = new EdgeDriver();
+                 break;
+
             default:
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver();
         }
+     /*   if(browserName.equalsIgnoreCase("edge")){
+            WebDriverManager.edgedriver().setup();
+             driver = new EdgeDriver();
+        } else if (browserName.equalsIgnoreCase("firefox")) {
+            WebDriverManager.firefoxdriver().setup();
+             driver = new FirefoxDriver();
+        } else if (browserName.equalsIgnoreCase("chrome")) {
+            WebDriverManager.chromedriver().setup();
+             driver = new ChromeDriver();
+
+        }*/
+
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         // take it from data.properties
