@@ -75,8 +75,8 @@ public class LoginTest extends BaseTest {
         homePage.myAccountBtnClick();
         homePage.goToLoginPage();
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.enterEmail("amotooricap1@gmail.com");
-        loginPage.enterPassword("12345");
+        loginPage.enterEmail(prop.getProperty("email"));
+        loginPage.enterPassword(prop.getProperty("password"));
         loginPage.clickLoginToAccountPage();
 
         boolean actualResult = false;
