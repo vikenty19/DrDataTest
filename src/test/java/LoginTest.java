@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import pageobjects.AccountPage;
 import pageobjects.HomePage;
 import pageobjects.LoginPage;
 import utils.DataUtil;
@@ -18,13 +19,13 @@ import java.util.Properties;
 
 public class LoginTest extends BaseTest {
 
-    MyXLSReader  excelReader;
+    MyXLSReader excelReader;
 
 
-    @Test (dataProvider = "dataSupplier")
-    public void testLogin(HashMap<String,String>hMap) {
+    @Test(dataProvider = "dataSupplier")
+    public void testLogin(HashMap<String, String> hMap) {
         // check if file excelReader exist or define as N - not executed
-        if (!DataUtil.isRunnable(excelReader,"LoginTest","TestCases")|| hMap.get("Runmode").equals("N")){
+        if (!DataUtil.isRunnable(excelReader, "LoginTest", "TestCases") || hMap.get("Runmode").equals("N")) {
             throw new SkipException("Run mode is set to N, hence not executed");
         }
         driver = openBrowserAndUrl(hMap.get("Browser"));
@@ -35,30 +36,29 @@ public class LoginTest extends BaseTest {
         loginPage.enterEmail(hMap.get("Username"));
         loginPage.enterPassword(hMap.get("Password"));
         loginPage.clickLoginToAccountPage();
-      //Assertions that depend on Data page in excel sheet
+        //Assertions that depend on Data page in excel sheet
 
         String expectedResult = hMap.get("ExpectedResult");
         boolean expectedConvertedResult = false;
         boolean actualResult = false;
-        if(expectedResult.equalsIgnoreCase("Success")){
+        if (expectedResult.equalsIgnoreCase("Success")) {
             expectedConvertedResult = true;
-        }else if(expectedResult.equalsIgnoreCase("Failure")){
+        } else if (expectedResult.equalsIgnoreCase("Failure")) {
             expectedConvertedResult = false;
         }
         // check if actual result true or false
-        try {
-             actualResult = driver.findElement(By.linkText("Edit your account information")).isDisplayed();
-        }catch (Throwable e){
-            actualResult = false;
-        }
-        Assert.assertEquals(actualResult,expectedConvertedResult);
+        AccountPage accountPage = new AccountPage(driver);
+        actualResult = accountPage.isConfirmTextDisplayed();
+
+        Assert.assertEquals(actualResult, expectedConvertedResult);
 
     }
+
     // Checking proper reading from property file
     @Test
-    public void checkFileReading(){
+    public void checkFileReading() {
         prop = new Properties();
-        File propFile=new File(System.getProperty("user.dir")+"/src/test/resources/data.properties");
+        File propFile = new File(System.getProperty("user.dir") + "/src/test/resources/data.properties");
 
         try {
             FileInputStream fis = new FileInputStream(propFile);
@@ -72,23 +72,24 @@ public class LoginTest extends BaseTest {
         driver.get(prop.getProperty("url"));
 
     }
+
     @DataProvider
-    public Object[][] dataSupplier()  {
+    public Object[][] dataSupplier() {
         //For try-catch make Object global
-        Object[][]data = null;
+        Object[][] data = null;
         //create an Object for MyXLSReader
 // String excelFilePath = System.getProperty("user.dir") + "/Files/employee.xlsx";
         try {
             String excelPath = System.getProperty("user.dir") + "\\src\\test\\resources\\TutorialsNinja.xlsx";
             System.out.println(excelPath);
-         excelReader =
-                  new MyXLSReader(excelPath);
+            excelReader =
+                    new MyXLSReader(excelPath);
 
-        //Load data to the Reader method getTestData
-         data =   DataUtil
-              .getTestData(excelReader,"LoginTest","Data");//object,testName,Data from excel sheet
+            //Load data to the Reader method getTestData
+            data = DataUtil
+                    .getTestData(excelReader, "LoginTest", "Data");//object,testName,Data from excel sheet
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
         return data;
     }
