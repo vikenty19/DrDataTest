@@ -7,6 +7,7 @@ import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pageobjects.HomePage;
+import pageobjects.LoginPage;
 import utils.DataUtil;
 import utils.MyXLSReader;
 
@@ -29,12 +30,13 @@ public class LoginTest extends BaseTest {
         driver = openBrowserAndUrl(hMap.get("Browser"));
         HomePage homePage = new HomePage(driver);
         homePage.myAccountBtnClick();
-        homePage.loginBtnClick();
+        homePage.goToLoginPage();
         LoginPage loginPage = new LoginPage(driver);
         loginPage.enterEmail(hMap.get("Username"));
-        driver.findElement(By.id("input-email")).sendKeys(hMap.get("Username"));
-        driver.findElement(By.id("input-password")).sendKeys(hMap.get("Password"));
-        driver.findElement(By.xpath("//input[@type ='submit']")).click();
+        loginPage.enterPassword(hMap.get("Password"));
+        loginPage.clickLoginToAccountPage();
+      //Assertions that depend on Data page in excel sheet
+
         String expectedResult = hMap.get("ExpectedResult");
         boolean expectedConvertedResult = false;
         boolean actualResult = false;

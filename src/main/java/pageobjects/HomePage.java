@@ -19,7 +19,8 @@ public class HomePage {
         myAccount.click();
     }@FindBy(linkText = "Login")
     private WebElement loginBtn;
-    public void loginBtnClick(){
+    public void  goToLoginPage(){
         loginBtn.click();
+
     }
 }
