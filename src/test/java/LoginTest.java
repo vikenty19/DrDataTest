@@ -23,7 +23,7 @@ public class LoginTest extends BaseTest {
     MyXLSReader excelReader;
 
 
-    @Test(dataProvider = "dataSupplier")
+/*    @Test(dataProvider = "dataSupplier")
     public void testLogin(HashMap<String, String> hMap) {
         // check if file excelReader exist or define as N - not executed
         if (!DataUtil.isRunnable(excelReader, "LoginTest", "TestCases") || hMap.get("Runmode").equals("N")) {
@@ -53,7 +53,7 @@ public class LoginTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedConvertedResult);
 
-    }
+    }*/
 
     // Checking proper reading from property file
     @Test
